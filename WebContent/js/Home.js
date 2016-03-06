@@ -36,22 +36,31 @@ var imgsize = new Array();
         });
     });
     console.log(data);
-    $.each(data, function (index, values) {
-    
-    var name= "<div class='/ '/><p style='font-size: 16px' ><b>"+values.name+"</b></p><p style='font-size: 12px'>@"+values.screenName+"</p>";
-    var date = "<p>"+values.date+"</p>";
-    var datearray = date.split(" ");
-    var date = datearray[0]+" "+datearray[1]+" "+datearray[2];
-    var img=values.img;
-    var tweet ="<p>"+values.tweet+"</p><br>"+"<img src="+values.imgUrl+"><br>";
-    $("#data").append("<img src="+img+">"); 
-    $("#data").append(name);
-    $("#data").append(date);
-    $("#data").append(tweet);
-     if(index==4){
+$.each(data, function (index, values) {
+	    var twUrl = values.tweet.indexOf("https:"); 
+	    var tweeturl = values.tweet.substring(twUrl);
+	    var tweet = values.tweet.substring(0,twUrl);
+	    var name= "<div class='col-md-11 '><p style='font-size: 20px' ><b>"+values.name+"</b>  @"+values.screenName+"</p>";
+	    var dat = "<p>"+values.date+"</p>";
+	    var datearray = dat.split(" ");
+	    var date = name+datearray[0]+" "+datearray[1]+" "+datearray[2];
+	    var img=values.img;
+	var tweet =date+"<a href="+tweeturl+"><p>"+tweet+"</p></a>"+"<img style='height:300 ;width:250 ; '"+"src="+values.imgUrl+"><hr><br></div>";
+	    $("#data").append("<div class='col-md-1' style='border-top=solid 1px black'><img src="+img+"></div>"); 
+	    $("#data").append(tweet);
+	    if(index==5){
+	    return false;
+	    }
+	     
+	    });
+	    $.each(data, function (index, values) {
+	    var img= "<div class='col-md-4' style='padding-right=10px'><img src="+values.imgUrl+" height='200' width='255'></div><br>";
+	    $("#photos").append(img);
+	    if(index==5){
 	return false;
-}
-    });
+	}
+	    });
     }
     });
 }
+

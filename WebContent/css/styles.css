@@ -229,7 +229,13 @@ text-transform: uppercase;
       left: 30px;
       bottom: 30px;
     }
-    
+    .divclass{
+    padding-top: 20px;
+    background: #FFFFFF;
+    }
+    .spanimg{
+    display:block; height=100px; width=100px;
+    }
     .search input[type=text] {
       border: 1px solid #ccc;
       margin: 0;
@@ -237,6 +243,17 @@ text-transform: uppercase;
       font-size: 16px;
       width: 300px;
     }
+    .line
+{
+    
+    border-bottom:2px #5B3400 solid;
+    
+    }
+    .colr{
+    color:#00aced;
+    }
+   
+
 #main-nav.navbar-default {
 background: #FFFFFF;
 /* padding: 10px 0; */
@@ -420,7 +437,7 @@ color: #FFF;
   color: #45aed6;
 }
 #pricing h2, #pricing p{
-color:#fff !important;
+color:#00aced !important;
 }
 #features h2{ color: #C3C3C3;}
 #features {
@@ -551,7 +568,7 @@ font-size:45px;color: #00aced;}
 }
 #portfolio {
   padding: 100px 0;
-  background: #FFFFFF;
+  background: #FFFF;
   background-size: cover;
 }
 #portfolio .portfolio-filter {
@@ -748,9 +765,10 @@ margin: 0 8px;
 }
 #about {
   padding: 100px 0;
-  background: #00aced;
+  background: #FFFF;
   /* background: url('../images/img2.jpg'); */
   background-size: cover;
+  color:#00aced;
   };
 }
 #about .column-title{
@@ -944,7 +962,7 @@ margin: 0;
 }
 #pricing {
   padding: 100px 0 70px;
-  background: #212121;
+  background: #000 url('../images/map-image.png') top left no-repeat;
 }
 #pricing ul.pricing {
   list-style: none;
