@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="webthemez">
+    <title>Twitter Hash Tag</title>
+	<!-- core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet"> 
+	
+        <link rel="stylesheet" type="text/css" href="css/slider-style.css" />
+        <link rel="stylesheet" type="text/css" href="css/slider-custom.css" />
+		<script type="text/javascript" src="js/modernizr.custom.79639.js"></script>
+<script src="//jashkenas.github.io/underscore/underscore-min.js"></script>
+  <script src="//jashkenas.github.io/backbone/backbone-min.js"></script>
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="//cdn.rawgit.com/MassRelevance/massrel-js/1.7.2/massrel.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="></script> 
+  <script type="text/javascript" src="js/Home.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>    
+    <link rel="shortcut icon" href="images/ico/favicon.ico"> 
+    <script>
+    function initialize() {
+      var mapOptions = {
+        // US
+        center: { lat: 34.397, lng: -100.644},
+        zoom: 4
+      };
+      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+      var markers = []
+      function plotEntities(entities) {
+        // remove entities that have already been plotted
+        _.each(markers, function(marker) {
+          marker.setMap(null);
+        });
+        
+        _.each(entities, function(entity) {
+          var coords = entity.coordinates;
+            
+          if(!coords) {
+            return;
+          }
+          var marker = createMarker(entity.raw.text, coords);
+          
+          // save every marker so we can remove them later
+          // when we plot another set of enitites
+          markers.push(marker);      
+        });
+      }
+      
+      function createMarker(text, coords) {
+        var point = new google.maps.LatLng(coords[0], coords[1]);
+        var marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            title: text
+        });
+        return marker;
+      }
+
+      function mapBounds() {
+        var bounds = map.getBounds();
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        
+        return [sw.lat(), sw.lng(), ne.lat(), ne.lng()];
+      }
+      
+      var $form = $('form');
+      var $q = $('#q');
+      var client = new massrel.Search();
+      
+      var Query = Backbone.Model.extend({
+        search: function(fn) {
+          var bounds = this.get('bounds');
+          var boundsValue = bounds ? bounds.join(' ') : '';
+          client.fetch({
+            q: this.get('q'),
+            filters: {
+              start: '-1d',
+              finish: '0',
+              bounds: boundsValue
+            },
+            views: {
+              entities: {
+                limit: 100,
+                coordinates: true,
+                sort: 'retweet_count desc'
+              }
+            }
+          }, fn, function() {
+            // error
+          });
+        }
+      });
+
+      var query = new Query();
+      query.on('change', _.debounce(function(model, options) {
+        query.search(function(results) {
+          plotEntities(results.views.entities.data);
+        });
+        
+        var bounds = query.get('bounds');
+      }, 250));
+
+      $form.submit(function(e) {
+        query.set('q', $q.val());
+        e.preventDefault();
+      });
+      
+      google.maps.event.addListener(map, 'bounds_changed', function() {        
+        query.set('bounds', mapBounds());
+      });
+      
+      query.set('q', $q.val());
+      query.set('bounds', mapBounds());
+    }
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</head> 
+
+<body id="home">
+    <header id="header">
+        <nav id="main-nav" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo" height="60" width="50"></a>
+                </div>
+				<div>
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="scroll active"><a href="#home"><i class="fa fa-twitter"></i></a></li>  
+                        <li class="scroll"><a href="#services"><i class="fa fa-camera-retro"></i></a></li>
+                        <li class="scroll"><a href="#about"><i class="fa fa-video-camera"></i></a></li>
+						<li class="scroll"><a href="#pricing"><i class="fa fa-map-marker"></i></a></li>
+                        <li class="scroll"><a href="#contact-us"><i class="fa fa-line-chart"></i></a></li>                        
+                    </ul>
+                </div>
+                <div id="tfheader collapse navbar-collapse navbar-right">
+		<form id="tfnewsearch" method="get" action="searchTweets()">
+		        <input type="text" placeholder="Search" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
+		</form>
+	<div class="tfclear"></div>
+	</div></div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+
+    <section class="demo-2">
+				<div class="row">
+				<div class="col-md-2">hii</div>
+				<div class="col-md-8" id="data"></div>
+				<div class="col-md-2">hw</div>
+				</div>
+
+				
+
+    </section><!--/#main-slider-->
+
+ <section id="services" >
+        <div class="container">
+
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Photos</h2>
+                            </div>
+
+            <div class="row">
+        
+            <div class="portfolio-items">
+                <div class="portfolio-item designing">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/01.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/01.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item designing">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/01.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/01.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            </div>  
+        </div><!--/.container-->
+    </section><!--/#services-->
+
+  
+ <section id="about">
+        <div class="container">
+
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Videos</h2>
+                            </div>
+
+           </div>
+    </section><!--/#about-->
+<section id="hero-action-section" class="hero-action-section">
+		<!-- .Container -->
+		<div class="container ow-section">
+			<h3 class="hero-action-subtitle">We Design your Awesome Dreams</h3>
+			<h4 class="hero-action-title">Phasellus ut euismod massa, eu eleifend</h4>
+			<p class="hero-action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget risus vitae massa semper aliquam quis mattis quam. Morbi vitae tortor tempus, placerat leo et.
+			</p>
+			<p><a href="#" class="get-started">Get It Now!!</a></p>
+		</div><!-- /.Container -->
+	</section>
+     <section id="our-team">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">
+Top 5 Tweets
+</h2>
+            </div>
+			
+			 	
+            
+
+        </div>
+    </section><!--/#our-team-->
+   <section class="testimonial-area" id="testimonial">
+			<div class="container">
+				<div class="section-header">
+                <h2 class="section-title wow fadeInDown">Testimonial</h2>
+                <p class="wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget risus vitae massa <br> semper aliquam quis mattis quam.</p>
+            </div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="single-testimonial animate_fade_in" style="opacity: 1; right: 0px;">
+							<div class="row">
+								<div class="col-xs-12">
+									<blockquote>Sontrary to popular belief, Lorem Ipsuis no simply random text. It has roots in a piece of classical Layears old. belief, Lorem Ipsuis not simply</blockquote>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3">
+									<img src="images/pic1.jpg" alt="client">
+								</div>
+								<div class="col-xs-9 half-gutter">
+									<h5>John Bond</h5>
+									<h6>Lorem Ipsuis simply</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="single-testimonial animate_fade_in" style="opacity: 1; right: 0px;">
+							<div class="row">
+								<div class="col-xs-12">
+									<blockquote>Tontrary to popular belief, Lorem Ipsuis no simply random text. It has roots in a piece of classical Layears old. belief, Lorem Ipsuis not simply</blockquote>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3">
+									<img src="images/pic2.jpg" alt="client">
+								</div>
+								<div class="col-xs-9 half-gutter">
+									<h5>John Bond</h5>
+									<h6>Lorem Ipsuis simply</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="single-testimonial animate_fade_in" style="opacity: 1; right: 0px;">
+							<div class="row">
+								<div class="col-xs-12">
+									<blockquote>Aontrary to popular belief, Lorem Ipsuis no simply random text. It has roots in a piece of classical Layears old. belief, Lorem Ipsuis not simply</blockquote>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3">
+									<img src="images/pic1.jpg" alt="client">
+								</div>
+								<div class="col-xs-9 half-gutter">
+									<h5>John Bond</h5>
+									<h6>Lorem Ipsuis simply</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+   
+  <section id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Gallery</h2>
+                <p class="wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget risus vitae massa <br> semper aliquam quis mattis quam.</p>
+            </div>
+
+            <div class="text-center">
+                <ul class="portfolio-filter">
+                    <li><a class="active" href="#" data-filter="*">All Works</a></li>
+                    <li><a href="#" data-filter=".designing">Designing</a></li>
+                    <li><a href="#" data-filter=".mobile">Mobile App</a></li>
+                    <li><a href="#" data-filter=".development">Development</a></li>
+                </ul><!--/#portfolio-filter-->
+            </div>
+
+            <div class="portfolio-items">
+                <div class="portfolio-item designing">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/01.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/01.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item mobile development">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/02.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/02.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item designing">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/03.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/03.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item mobile">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/04.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/04.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item designing development">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/05.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/05.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item mobile">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/06.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/06.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item designing development">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/07.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/07.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+
+                <div class="portfolio-item mobile">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="images/portfolio/08.jpg" alt="">
+                        <div class="portfolio-info"> 
+                            <a class="preview" href="images/portfolio/08.jpg" rel="prettyPhoto"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div><!--/.portfolio-item-->
+            </div>
+        </div><!--/.container-->
+    </section><!--/#portfolio-->
+
+    <section id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Maps</h2>
+                           </div>
+<div id="map-canvas"></div>
+  <form class="search">
+    <input type="text" id="q" value="free beer">
+  </form>
+           
+        </div>
+    </section><!--/#pricing-->
+   
+   
+
+    <section id="business-stats">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Graphs</h2>
+                <p class="wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget risus vitae massa <br> semper aliquam quis mattis quam.</p>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                        <div class="business-stats" data-digit="6850" data-duration="1000"></div>
+                        <strong>Clients</strong>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
+                        <div class="business-stats" data-digit="1465" data-duration="1000"></div>
+                        <strong>Trainer</strong>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
+                        <div class="business-stats" data-digit="4325" data-duration="1000"></div>
+                        <strong>Programs</strong>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
+                        <div class="business-stats" data-digit="2568" data-duration="1000"></div>
+                        <strong>Successes</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#business-stats-->
+
+  
+  <section id="contact-us">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title wow fadeInDown">Trending</h2>
+                            </div>
+        </div>
+  
+        <div class="container">
+            
+        </div>   
+   </section><!--/#bottom-->
+
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                   <p> @ From the Den</p>
+             
+                </div>
+                <div class="col-sm-6">
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li> 
+                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="#"><i class="fa fa-github"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer><!--/#footer-->
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/mousescroll.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/jquery.inview.min.js"></script>
+    <script src="js/wow.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ba-cond.min.js"></script>
+    <script type="text/javascript" src="js/jquery.slitslider.js"></script>
+	<script type="text/javascript" src="js/slitslider-custom.js"></script>
+ <script src="contact/jqBootstrapValidation.js"></script>
+ <script src="contact/contact_me.js"></script>
+    <script src="js/custom-scripts.js"></script>
+</body>
+</html>
