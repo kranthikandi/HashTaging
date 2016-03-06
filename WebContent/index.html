@@ -33,6 +33,7 @@
   <script type="text/javascript" src="js/Home.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/jquery.mapple.js"></script>
+<script src="js/custom.js"></script>
 <script type="text/javascript" src="js/rapheal-min.js"></script>
 <script type="text/javascript" src="js/usstates.js"></script>
 <script type="text/javascript" src="js/jquery-float-min.js"></script>
@@ -42,6 +43,7 @@
 </head> 
 
 <body id="home">
+
     <header id="header">
         <nav id="main-nav" class="navbar navbar-default navbar-fixed-top" style="height:70px"role="banner">
             <div class="container">
@@ -74,12 +76,15 @@
             </div><!--/.container-->
         </nav><!--/nav-->
     </header><!--/header-->
+<div id="preloader">
+<div id="status"></div>
+</div>
 
     <section class="demo-2">
     <div id="about" class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-    <h1 class="colr">People tweet using various hashtags. Give a hashtag and you get all the information like 
+    <h1 class="colr" align="justify">People tweet using various hashtags. Give a hashtag and you get all the information like 
     what are the photos and videos posted, displays geo location of the tweets in a map and also shows 
     trending tweets. It also displays the positive and negative tweets on a graph</h1>
     </div>
@@ -100,24 +105,22 @@
         <div  class="container">
 
             <div class="section-header">
-                <h2 class="section-title wow fadeInDown">Photos</h2>
+                <h2 class="section-title wow fadeInDown">Media</h2>
                             </div>
 
-            <div id="photos" class="row">
+            <div class="row">
+            
+            <div class="col-md-4"><a href="https://twitter.com/search?src=typd&q=nbcuhackathon"><img src="http://pbs.twimg.com/media/Cc3chP1UsAA9uio.jpg" alt=1 height="300" width="260"></a></div>
+            <div class="col-md-4"><a href="https://twitter.com/search?src=typd&q=nbcuhackathon"><img src="http://pbs.twimg.com/media/Cc19NKKUEAAonx2.jpg" alt=2 height="300" width="260"></a></div>
+            <div class="col-md-4"><a href="https://twitter.com/search?src=typd&q=nbcuhackathon"><img src="http://pbs.twimg.com/media/CczyMOxUsAAVDxk.jpg" alt=3 height="300" width="260"></a></div>
+            </div><p></p><br> <div class="row">
+            <div class="col-md-4"><a href="https://twitter.com/search?src=typd&q=nbcuhackathon"><img src="http://pbs.twimg.com/media/Cc1i4a3UkAEfa5Q.jpg" alt=4 height="300" width="260"></a></div>
+            <div class="col-md-4"><a href="https://twitter.com/search?src=typd&q=nbcuhackathon"><img src="http://pbs.twimg.com/media/Cc4rJZUUMAAraPg.jpg" alt=4 height="300" width="260"></a></div>
             </div>  
         </div><!--/.container-->
     </section><!--/#services-->
 
-  
- <section id="about">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title wow fadeInDown colr">Videos</h2>
-                            </div>
-
-           </div>
-    </section><!--/#about-->
-
+ 
 
     <section id="pricing">
     <div class="container"  >

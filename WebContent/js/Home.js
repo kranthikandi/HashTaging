@@ -1,6 +1,8 @@
 function searchTweets(){
 	$("#about").hide();
 	$("#data").empty();
+	$("#preloader").show();
+	
 var text = $("#text").val();
 var twitteCount;
 var data = new Array();
@@ -11,6 +13,7 @@ var senti1 = new Array();
 var ncount;
 var necount;
 var pcount;
+$("#preloader").hide();
 var url="https://search-proxy.spredfast.com/search.json?q="+text+"&filter.start=-1d&filter.finish=0&view.entities.limit=20";
     $.ajax({url: url,
     	success: function(result){
@@ -46,11 +49,11 @@ var url="https://search-proxy.spredfast.com/search.json?q="+text+"&filter.start=
     				var tweet = values.tweet.substring(0,twUrl);
     						
     				var img=values.img;
-    				var name= "<div class='col-md-11 '><p style='font-size: 16px' ><b>"+values.name+"</b></p><p style='font-size: 12px'>@"+values.screenName+"</p>";
+    				var name= "<div class='col-md-11 '><p style='font-size: 20px' ><b>"+values.name+"</b> @"+values.screenName+"</p>";
 					var dat = "<p>"+values.date+"</p>";
 					var datearray = dat.split(" ");
 					var date =name+ datearray[0]+" "+datearray[1]+" "+datearray[2];
-					var tweet =date+"<a href="+tweeturl+"><p>"+tweet+"</p></a><br>"+"<img src="+values.imgUrl+"></div><br>";
+					var tweet =date+"<a href="+tweeturl+"><p>"+tweet+"</p></a><br>"+"<img src="+values.imgUrl+"><br><br><hr></div>";
 					$("#data").append("<div class='col-md-1'><img src="+img+" ></div>"); 
 					$("#data").append(tweet);
 					if(m==5){
