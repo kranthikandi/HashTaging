@@ -24,7 +24,7 @@
   <script type="text/javascript" src="js/Home.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>    
     <link rel="shortcut icon" href="images/ico/favicon.ico"> 
-    <script>
+    <!-- <script>
     function initialize() {
       var mapOptions = {
         // US
@@ -123,7 +123,7 @@
     }
     
     google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
+  </script> -->
 </head> 
 
 <body id="home">
@@ -150,9 +150,8 @@
                     </ul>
                 </div>
                 <div id="tfheader collapse navbar-collapse navbar-right">
-		<form id="tfnewsearch" method="get" action="searchTweets()">
-		        <input type="text" placeholder="Search" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
-		</form>
+		        <input type="text" placeholder="Search" class="tftextinput" name="q" size="21" maxlength="120">
+		        <input type="submit" onclick="searchTweets()" value="search" class="tfbutton">
 	<div class="tfclear"></div>
 	</div></div>
             </div><!--/.container-->
@@ -162,7 +161,7 @@
     <section class="demo-2">
 				<div class="row">
 				<div class="col-md-2">hii</div>
-				<div class="col-md-8" id="data"></div>
+				<div class="col-md-8" id="data" style="border: 2px solid blue"></div>
 				<div class="col-md-2">hw</div>
 				</div>
 
@@ -489,7 +488,7 @@ Top 5 Tweets
     <script type="text/javascript" src="js/jquery.slitslider.js"></script>
 	<script type="text/javascript" src="js/slitslider-custom.js"></script>
  <script src="contact/jqBootstrapValidation.js"></script>
- <script src="contact/contact_me.js"></script>
+<!--  <script src="contact/contact_me.js"></script> -->
     <script src="js/custom-scripts.js"></script>
 </body>
 </html>

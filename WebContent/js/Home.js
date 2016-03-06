@@ -1,6 +1,5 @@
-function searchTwittes(){
+function searchTweets(){
 var text = $("#text").val();
-alert(text);
 var twitteCount;
 var data = new Array();
 var meta = new Array();
@@ -49,7 +48,9 @@ var imgsize = new Array();
     $("#data").append(name);
     $("#data").append(date);
     $("#data").append(tweet);
-     
+     if(index==4){
+	return false;
+}
     });
     }
     });
