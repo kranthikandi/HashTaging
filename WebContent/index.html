@@ -56,7 +56,7 @@
                 </div>
 				<div class="col-md-9">
 				     <div id="tfheader" class="   navbar-left " style="padding:15px; background-color: #00aced" >
-		        <input type="text" placeholder="Search" class="tftextinput" name="q" size="21" maxlength="120">
+		        <input id="text" type="text" placeholder="Search" class="tftextinput" name="q" size="21" maxlength="120">
 		        <input type="submit" onclick="searchTweets()" value="search" class="tfbutton">
 	<div class="tfclear"></div>
 	</div>
@@ -64,7 +64,7 @@
                     <ul class="nav navbar-nav">
                         <li class="scroll active"><a href="#home"><span class="fa fa-twitter fa-2x" ></span></a></li>  
                         <li class="scroll"><a href="#services"><span class="fa fa-camera-retro fa-2x"></span></a></li>
-                        <li class="scroll"><a href="#about"><span class="fa fa-video-camera fa-2x"></span></a></li>
+                        <!-- <li class="scroll"><a href="#about"><span class="fa fa-video-camera fa-2x"></span></a></li> -->
 						<li class="scroll"><a href="#pricing"><span class="fa fa-map-marker fa-2x"></span></a></li>
 						 <li class="scroll"><a href="#portfolio"><span class="fa fa-pie-chart fa-2x"></span></a></li>
                         <li class="scroll"><a href="#contact-us"><span class="fa fa-line-chart fa-2x"></span></a></li>                        
@@ -76,14 +76,21 @@
     </header><!--/header-->
 
     <section class="demo-2">
-    <div><p>People tweet using various hashtags. Give a hashtag and you get all the information like 
+    <div id="about" class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+    <h1 class="colr">People tweet using various hashtags. Give a hashtag and you get all the information like 
     what are the photos and videos posted, displays geo location of the tweets in a map and also shows 
-    trending tweets. It also displays the positive and negative tweets on a graph</p></div>
-				<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8" id="data" style="border-left:    1px solid  #00aced;border-right:    1px solid  #00aced"></div>
-				<div class="col-md-2"></div>
-				</div>
+    trending tweets. It also displays the positive and negative tweets on a graph</h1>
+    </div>
+    <div class="col-md-2"></div>
+    
+    </div>
+	<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8" id="data" style="border-left:    1px solid  #00aced;border-right:    1px solid  #00aced"></div>
+	<div class="col-md-2"></div>
+	</div>
 
 				
 
