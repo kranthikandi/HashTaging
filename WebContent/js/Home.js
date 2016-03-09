@@ -70,7 +70,7 @@ var url="https://search-proxy.spredfast.com/search.json?q="+text+"&filter.start=
     			});
     			}
     });
-    $.ajax({url: "https://search-proxy.spredfast.com/search.json?q=trump&filter.start=-12h&filter.finish=0&view.sentiment=true",
+    $.ajax({url: "https://search-proxy.spredfast.com/search.json?q="+text+"&filter.start=-12h&filter.finish=0&view.sentiment=true",
     	success: function(result){
     		console.log(result);
     		var total = result.views.sentiment.counts.total;
